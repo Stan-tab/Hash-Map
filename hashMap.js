@@ -68,6 +68,59 @@ class hashMap {
 	reorganizer() {
 		console.log("Not realized yet");
 	}
+
+	entries() {
+		if (this.buckets.length === 0) return null;
+		const accum = [];
+		for (let i = 0; i < this.size; i++) {
+			if (!this.buckets[i]) continue;
+			for (let j = 0; j < this.buckets[i].size; j++) {
+				accum.push({
+					key: this.buckets[i].at(j).key,
+					value: this.buckets[i].at(j).value,
+				});
+			}
+		}
+		return accum;
+	}
+
+	keys() {
+		if (this.buckets.length === 0) return null;
+		const accum = [];
+		for (let i = 0; i < this.size; i++) {
+			if (!this.buckets[i]) continue;
+			for (let j = 0; j < this.buckets[i].size; j++) {
+				accum.push(this.buckets[i].at(j).key);
+			}
+		}
+		return accum;
+	}
+
+	values() {
+		if (this.buckets.length === 0) return null;
+		const accum = [];
+		for (let i = 0; i < this.size; i++) {
+			if (!this.buckets[i]) continue;
+			for (let j = 0; j < this.buckets[i].size; j++) {
+				accum.push(this.buckets[i].at(j).value);
+			}
+		}
+		return accum;
+	}
+
+	clear() {
+		this.buckets = [];
+		this.capacity = 0;
+		this.size = 16;
+	}
+
+	remove(key) {
+		const position = this.find(key);
+		if (position === null) return null;
+		const node = this.buckets[position[0]].at(position[1]); 
+		this.buckets[position[0]].removeAt(position[1]);
+		return node;
+	}
 }
 
 const test = new hashMap();
@@ -84,6 +137,10 @@ test.set("jacket", "blue");
 test.set("kite", "pink");
 test.set("lion", "golden");
 test.set("lion", "rainbow");
-console.log(test.find("lion"));
+// console.log(test.find("lion"));
 
-// console.log(test.buckets)
+// console.log(test.keys());
+// console.log(test.values());
+// console.log(test.entries())
+// console.log(test.remove("banana"))
+// console.log(test.entries())
