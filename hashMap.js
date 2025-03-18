@@ -66,7 +66,20 @@ class hashMap {
 	}
 
 	reorganizer() {
-		console.log("Not realized yet");
+		const values = this.entries();
+		this.buckets = [];
+		this.size *= 2;
+		for (let i = 0; i < values.length; i++) {
+			const element = values[i];
+			const hashCode = murmur3(element.key) % this.size;
+			const place = this.buckets[hashCode];
+			if (!place) {
+				const list = new linkedList(element);
+				this.buckets[hashCode] = list;
+				continue;
+			}
+			place.append(element);
+		}
 	}
 
 	entries() {
@@ -121,6 +134,10 @@ class hashMap {
 		this.buckets[position[0]].removeAt(position[1]);
 		return node;
 	}
+
+	length() {
+		return this.capacity;
+	}
 }
 
 const test = new hashMap();
@@ -141,6 +158,6 @@ test.set("lion", "rainbow");
 
 // console.log(test.keys());
 // console.log(test.values());
-// console.log(test.entries())
+console.log(test.length())
 // console.log(test.remove("banana"))
 // console.log(test.entries())
